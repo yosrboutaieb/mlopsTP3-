@@ -9,8 +9,9 @@ from sklearn.metrics import accuracy_score, classification_report
 def prepare_data(path, target="Exited", test_size=0.2, random_state=42):
     """Charge le CSV, prétraite et retourne X_train, X_test, y_train, y_test."""
     df = pd.read_csv(path)
+    df = df.drop(columns=["RowNumber", "CustomerId", "Surname"])
     df = df.dropna()
-    df = pd.get_dummies(df, drop_first=True)  # encodage catégoriel
+    df = pd.get_dummies(df, columns=["Geography", "Gender"], drop_first=True)
     X = df.drop(columns=[target])
     y = df[target]
     X_train, X_test, y_train, y_test = train_test_split(
